@@ -1,0 +1,17 @@
+New Test Case Koffie:
+bikin dummy.
+3 page.
+1.⁠ ⁠registrasi
+2.⁠ ⁠login
+3.⁠ ⁠kasir sederhana(point of sale): 
+•⁠  ⁠header ada pilihan customer, tanggal
+•⁠  ⁠tambah barang
+•⁠  ⁠total rupiah + pembayaran.
+
+
+kirim: 
+screen recording
+source code github: link
+
+dikumpulkan selsasa siang.
+lebih cepat lebih baik.
