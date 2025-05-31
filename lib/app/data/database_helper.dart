@@ -41,7 +41,8 @@ class DatabaseHelper {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         code TEXT NOT NULL UNIQUE,
         name TEXT NOT NULL,
-        price REAL NOT NULL
+        price REAL NOT NULL,
+        stock INTEGER NOT NULL
       )
     ''');
 
