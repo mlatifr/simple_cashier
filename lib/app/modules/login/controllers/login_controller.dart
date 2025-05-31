@@ -14,6 +14,7 @@ class LoginController extends GetxController {
   @override
   void onReady() {
     super.onReady();
+    checkLoginStatus();
   }
 
   @override
@@ -111,22 +112,17 @@ class LoginController extends GetxController {
 
       if (user != null) {
         // User is logged in, navigate to home
-        Get.offAllNamed(Routes.HOME);
-        Get.snackbar(
-          'Info',
-          'Welcome back!',
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.blue,
-          colorText: Colors.white,
-        );
+        await Get.offAllNamed(Routes.HOME);
+        // Remove snackbar to prevent UI clutter on app startup
       } else {
         // User not logged in, stay on login page
-        errorMessage('Please login first');
+        // Remove error message to keep UI clean on initial load
+        Get.offAllNamed(Routes.LOGIN);
       }
     } catch (e) {
-      errorMessage('Error checking login status: ${e.toString()}');
-      // Handle error state
-      isLoading(false);
+      print('Error checking login status: ${e.toString()}');
+      // Silent error handling for startup flow
+      Get.offAllNamed(Routes.LOGIN);
     }
   }
 }
