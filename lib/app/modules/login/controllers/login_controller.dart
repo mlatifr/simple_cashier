@@ -81,6 +81,8 @@ class LoginController extends GetxController {
       if (user['password'] != passwordController.value.text) {
         errorMessage('Password salah');
         isLoading(false);
+        await Future.delayed(const Duration(seconds: 2));
+        errorMessage('');
         return;
       }
       // Update user login status to active
