@@ -268,6 +268,25 @@ class DatabaseHelper {
       whereArgs: [itemId],
     );
 
+    // Get current stock of the item
+    List<Map<String, dynamic>> itemData = await db.query(
+      'items',
+      where: 'id = ?',
+      whereArgs: [itemId],
+    );
+
+    if (itemData.isEmpty) {
+      return -1; // Item not found
+    }
+
+    int currentStock = itemData.first['stock'];
+    if (currentStock < quantity) {
+      return -2; // Not enough stock
+    }
+
+    // Update stock
+    await updateStock(itemId, currentStock - quantity);
+
     if (existingItem.isNotEmpty) {
       // Update quantity if item already in cart
       int currentQuantity = existingItem.first['quantity'];
@@ -293,6 +312,16 @@ class DatabaseHelper {
       {'quantity': quantity},
       where: 'id = ?',
       whereArgs: [cartId],
+    );
+  }
+
+  Future<int> updateStock(int itemId, int newStock) async {
+    Database db = await database;
+    return await db.update(
+      'items',
+      {'stock': newStock},
+      where: 'id = ?',
+      whereArgs: [itemId],
     );
   }
 

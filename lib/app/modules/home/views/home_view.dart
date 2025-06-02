@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 import 'package:simple_cashier/app/modules/cart/controllers/cart_controller.dart';
 import 'package:simple_cashier/app/modules/home/model/product_model.dart';
@@ -154,19 +153,45 @@ class HomeView extends GetView<HomeController> {
             child: const Text('BATAL'),
           ),
           TextButton(
-            onPressed: () {
+            onPressed: () async {
               final int quantity = int.tryParse(quantityController.text) ?? 1;
               if (quantity > 0 &&
                   quantity <= product.stock &&
                   product.id != null) {
                 // Add to cart
-                Get.put(CartController()).addToCart(product.id!, quantity);
+                int result = await Get.put(CartController()).addToCart(product.id!, quantity);
                 Navigator.pop(context);
-                Get.snackbar(
-                  'Sukses',
-                  '${product.name} ditambahkan ke keranjang',
-                  snackPosition: SnackPosition.BOTTOM,
-                );
+                
+                if (result >= 0) {
+                  Get.snackbar(
+                    'Sukses',
+                    '${product.name} ditambahkan ke keranjang',
+                    snackPosition: SnackPosition.BOTTOM,
+                  );
+                  // Refresh products to show updated stock
+                  Get.find<HomeController>().loadProducts();
+                } else if (result == -1) {
+                  Get.snackbar(
+                    'Gagal',
+                    'Produk tidak ditemukan',
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: Colors.red.withOpacity(0.1),
+                  );
+                } else if (result == -2) {
+                  Get.snackbar(
+                    'Gagal',
+                    'Stok tidak mencukupi',
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: Colors.red.withOpacity(0.1),
+                  );
+                } else {
+                  Get.snackbar(
+                    'Gagal',
+                    'Terjadi kesalahan saat menambahkan ke keranjang',
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: Colors.red.withOpacity(0.1),
+                  );
+                }
               } else {
                 Get.snackbar(
                   'Gagal',
