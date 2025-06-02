@@ -9,12 +9,12 @@ class LoginController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    checkLoginStatus();
   }
 
   @override
   void onReady() {
     super.onReady();
-    checkLoginStatus();
   }
 
   @override
@@ -105,19 +105,28 @@ class LoginController extends GetxController {
     }
   }
 
+  static bool _hasCheckedStatus = false;
   Future<void> checkLoginStatus() async {
+    // Cek apakah sudah pernah dipanggil
+    if (_hasCheckedStatus) return;
+    _hasCheckedStatus = true;
+
     try {
       // Check if user exists in database
       final user = await _databaseHelper.readIsLogin();
 
-      if (user != null) {
+      if (user != null && user) {
         // User is logged in, navigate to home
         await Get.offAllNamed(Routes.HOME);
         // Remove snackbar to prevent UI clutter on app startup
+      } else if (Get.currentRoute != Routes.LOGIN) {
+        // Hanya navigasi jika belum di halaman login
+        Get.offAllNamed(Routes.LOGIN);
       } else {
         // User not logged in, stay on login page
         // Remove error message to keep UI clean on initial load
         Get.offAllNamed(Routes.LOGIN);
+        return;
       }
     } catch (e) {
       print('Error checking login status: ${e.toString()}');

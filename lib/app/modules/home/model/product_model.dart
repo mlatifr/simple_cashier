@@ -30,7 +30,7 @@ class Product {
       id: map['id'],
       code: map['code'],
       name: map['name'],
-      price: map['price'],
+      price: map['price'].toDouble(),
       stock: map['stock'],
     );
   }
