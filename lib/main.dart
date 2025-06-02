@@ -14,7 +14,7 @@ void main() async {
   Get.put(LoginController(), permanent: true);
   runApp(
     GetMaterialApp(
-      title: "Simple Cashier",
+      title: "Simple Cashier\nby Latif",
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
       theme: ThemeData(

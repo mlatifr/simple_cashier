@@ -11,7 +11,10 @@ class LoginView extends GetView<LoginController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login'),
+        title: const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text('Koffie Cashier by Latif'),
+        ),
         centerTitle: true,
       ),
       body: Padding(

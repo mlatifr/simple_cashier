@@ -159,39 +159,11 @@ class HomeView extends GetView<HomeController> {
                   quantity <= product.stock &&
                   product.id != null) {
                 // Add to cart
-                int result = await Get.put(CartController()).addToCart(product.id!, quantity);
+                int result = await Get.put(CartController())
+                    .addToCart(product.id!, quantity);
                 Navigator.pop(context);
-                
-                if (result >= 0) {
-                  Get.snackbar(
-                    'Sukses',
-                    '${product.name} ditambahkan ke keranjang',
-                    snackPosition: SnackPosition.BOTTOM,
-                  );
-                  // Refresh products to show updated stock
-                  Get.find<HomeController>().loadProducts();
-                } else if (result == -1) {
-                  Get.snackbar(
-                    'Gagal',
-                    'Produk tidak ditemukan',
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: Colors.red.withOpacity(0.1),
-                  );
-                } else if (result == -2) {
-                  Get.snackbar(
-                    'Gagal',
-                    'Stok tidak mencukupi',
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: Colors.red.withOpacity(0.1),
-                  );
-                } else {
-                  Get.snackbar(
-                    'Gagal',
-                    'Terjadi kesalahan saat menambahkan ke keranjang',
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: Colors.red.withOpacity(0.1),
-                  );
-                }
+
+                _showResultDialog(result, product.name);
               } else {
                 Get.snackbar(
                   'Gagal',
@@ -206,6 +178,47 @@ class HomeView extends GetView<HomeController> {
         ],
       ),
     );
+  }
+
+// Helper function to show result dialog
+  void _showResultDialog(int result, String productName) {
+    switch (result) {
+      case >= 0:
+        Get.snackbar(
+          'Sukses',
+          '$productName ditambahkan ke keranjang',
+          snackPosition: SnackPosition.BOTTOM,
+        );
+        Get.find<HomeController>().loadProducts();
+        break;
+
+      case -1:
+        Get.snackbar(
+          'Gagal',
+          'Produk tidak ditemukan',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red.withOpacity(0.1),
+        );
+        break;
+
+      case -2:
+        Get.snackbar(
+          'Gagal',
+          'Stok tidak mencukupi',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red.withOpacity(0.1),
+        );
+        break;
+
+      default:
+        Get.snackbar(
+          'Gagal',
+          'Terjadi kesalahan saat menambahkan ke keranjang',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red.withOpacity(0.1),
+        );
+        break;
+    }
   }
 
   Drawer _drawerWidget() {
