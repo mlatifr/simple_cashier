@@ -2,6 +2,11 @@
 
 Aplikasi kasir sederhana yang dibangun menggunakan Flutter 3.22.2. Aplikasi ini dirancang untuk membantu pengelolaan transaksi penjualan dengan antarmuka yang mudah digunakan.
 
+## 📦 Download
+
+[⬇️ Download APK](https://github.com/mlatifr/simple_cashier/blob/main/lib/apk_download/simple_cashier_latif.apk)
+
+
 ## Teknologi yang Digunakan
 
 - Flutter 3.22.2
